@@ -3,7 +3,7 @@
 # and transform the 0 around it (top, buttom, left and right) to  be value of 1. Then, output the result. 
 
 # Thought Process:
-# Step 1: Sweep the arry to determine if there's a '1' in the multi-dimensional array.
+# Step 1: Sweep the array to determine if there's a '1' in the multi-dimensional array.
 # Step 2: For every '1' that we encounter, save the coordinates in a new array for later.
 # Step 3: With the coordinates in hand, transform the values in each direction.
 # Step 4: Output the result.
@@ -82,10 +82,10 @@ image = Image.new([
 ])
 
 # Output of the new array
-puts "Non blurred:"
-puts ""
+puts "\n"
+puts "Original Image:" + "\n" + "\n"
 image.output_image
-puts ""
-puts "Blurred:"
-puts ""
+puts "\n"
+puts "Blurred Image:" +  "\n" + "\n"
 image.blur(1)
+puts "\n"
