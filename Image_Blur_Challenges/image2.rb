@@ -33,7 +33,6 @@ class Image
             end
         end
         # Step 3
-        get_array_length
         @coordinates.each do |cord|
             image_blur(cord, distance)
         end
@@ -42,23 +41,12 @@ class Image
     end
 
     def image_blur(cord, distance)
-        t_arry = cord.instance_variable_get("@arry")
-        t_pos = cord.instance_variable_get("@pos")
-            @picture[ t_arry-distance][t_pos] = 1 if t_arry != 0 #top
-            @picture[t_arry+distance][t_pos] = 1 if t_arry != @max_length_y #bottom
-            @picture[t_arry][t_pos-distance] = 1 if t_pos != 0 #left
-            @picture[t_arry][t_pos+distance] = 1 if t_pos != @max_length_x #right
-    end
-
-    def get_array_length
-        column=@picture
-        column.each_index do |y|
-            row = column[y]
-                row.each_with_index do |x, count_x|
-                    @max_length_x = count_x
-                end
-                @max_length_y = y
-        end    
+        t_arry = cord.arry
+        t_pos = cord.pos
+            @picture[ t_arry-distance][t_pos] = 1 if t_arry != 0                                             # TOP
+            @picture[t_arry+distance][t_pos] = 1 if t_arry != (@picture.length-1)                # BOTTOM
+            @picture[t_arry][t_pos-distance] = 1 if t_pos != 0                                               # LEFT
+            @picture[t_arry][t_pos+distance] = 1 if t_pos != (@picture[t_arry].length-1)      # RIGHT
     end
 end
 
@@ -68,6 +56,15 @@ class Coordinates
     def initialize(arry, pos)
         @arry = arry
         @pos = pos
+    end
+
+# GETTER Methods
+    def arry
+        @arry
+    end
+
+    def pos
+        @pos
     end
 end
 
@@ -82,10 +79,8 @@ image = Image.new([
 ])
 
 # Output of the new array
-puts "\n"
-puts "Original Image:" + "\n" + "\n"
+puts "\nOriginal Image:\n\n"
 image.output_image
-puts "\n"
-puts "Blurred Image:" +  "\n" + "\n"
+puts "\nBlurred Image:\n\n"
 image.blur(1)
 puts "\n"
