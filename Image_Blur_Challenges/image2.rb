@@ -1,6 +1,6 @@
 # Image Blur 2
-# Using what was built in Image Blur 1, create a method called "blur(distance)" takes the value of 1
-# and transform the 0 around it (top, buttom, left and right) to  be value of 1. Then, output the result. 
+# Using what was built in Image Blur 1, create a method called "blur()" takes the value of 1 and
+# transform the 0 around it (top, buttom, left and right) to  be value of 1. Then, output the result. 
 
 # Thought Process:
 # Step 1: Sweep the array to determine if there's a '1' in the multi-dimensional array.
@@ -20,7 +20,7 @@ class Image
         end
     end
 
-    def blur(distance)
+    def blur()
         # Step 1
         @coordinates = []
         @picture.each_with_index do |arry, arry_index|
@@ -34,19 +34,17 @@ class Image
         end
         # Step 3
         @coordinates.each do |cord|
-            image_blur(cord, distance)
+            image_blur(cord.arry, cord.pos)
         end
         # Step 4
         output_image
     end
 
-    def image_blur(cord, distance)
-        t_arry = cord.arry
-        t_pos = cord.pos
-            @picture[ t_arry-distance][t_pos] = 1 if t_arry != 0                                             # TOP
-            @picture[t_arry+distance][t_pos] = 1 if t_arry != (@picture.length-1)                # BOTTOM
-            @picture[t_arry][t_pos-distance] = 1 if t_pos != 0                                               # LEFT
-            @picture[t_arry][t_pos+distance] = 1 if t_pos != (@picture[t_arry].length-1)      # RIGHT
+    def image_blur(arry, index)
+            @picture[arry-1][index] = 1 if arry != 0                                              # TOP
+            @picture[arry+1][index] = 1 if arry != (@picture.length-1)                # BOTTOM
+            @picture[arry][index-1] = 1 if index != 0                                            # LEFT
+            @picture[arry][index+1] = 1 if index != (@picture[arry].length-1)      # RIGHT
     end
 end
 
@@ -82,5 +80,5 @@ image = Image.new([
 puts "\nOriginal Image:\n\n"
 image.output_image
 puts "\nBlurred Image:\n\n"
-image.blur(1)
+image.blur()
 puts "\n"
