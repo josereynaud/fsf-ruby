@@ -18,32 +18,15 @@ def print_values(list_node)
 end
 
 def reverse_list(list, previous = nil)
-  iteration = list
-  while iteration
-    puts "Step 1: Snapshot the current head's values\n"
+  while list
     nxt = list.next_node
-    puts "nxt is #{nxt.value} and its next value's head is #{nxt.next_node.value}"
-    puts "Step 2: Mutate the pointer to previous (first value is nil)\n"
-    print_values(iteration)
-    list.next_node = previous # for some reason, when I do this I lose the pointer in iteration, which I am not mutating in any point. But if I don't do this, the code won't iterate properly
-    print_values(iteration)
-    puts "list.next_node is #{list.next_node}"
-    puts "Step 3: Alter the previous value \n"
-    previous = list
-    puts "previous is #{previous.value} and its next value's head is #{previous.next_node}"
-    puts "Step 4: Mutate the list value to reflect the next node in line\n"
-    list = nxt
-    puts "list is #{list.value} and its next value's head is #{list.next_node.value}"
-    puts "Step 5: Change the pointer to our previous head\n"
     list.next_node = previous
-    puts "list.next_node is now #{list.next_node.value}"
-    puts "value is #{list.value} and next is #{list.next_node.value}"
-    puts "Step 6: Iterate through the list"
-    iteration = iteration.next_node
-    puts "list is now #{list.value} and the next is #{list.next_node.value}"
-    puts "end of loop\n"
-    print_values(iteration)
-    puts "<><><>"
+    previous = list
+    if nxt == nil
+      break
+    else
+      list = nxt
+    end
   end
   return list
 end
@@ -54,6 +37,32 @@ node3 = LinkedListNode.new(12, node2)
 
 print_values(node3)
 puts "-------"
-#node3.reverse_list!(node3)
 revlist = reverse_list(node3)
-print_values(node3)
+print_values(revlist)
+
+# BONUS
+
+def is_infinite?(list_node)
+  fast_list_node = list_node
+  slow_list_node = list_node
+  while list_node
+    return false if fast_list_node == nil
+
+    slow_list_node = slow_list_node.next_node
+
+    if fast_list_node.next_node != nil
+      fast_list_node = fast_list_node.next_node.next_node
+    else
+      return false
+    end
+
+    return true if fast_list_node == slow_list_node
+  end
+end
+
+node1 = LinkedListNode.new(37)
+node2 = LinkedListNode.new(99, node1)
+node3 = LinkedListNode.new(12, node2)
+node1.next_node = node3
+puts "\nIs my linked list infinite?\n"
+puts is_infinite?(node3)
